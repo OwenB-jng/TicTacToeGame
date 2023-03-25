@@ -13,7 +13,7 @@ public class Board {
         state = new int[3][3];
         initializeBoard();
     }
-
+    //sets all values in matrix to 0
     public void initializeBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -55,11 +55,13 @@ public class Board {
             state[x][y] = 2;
         }
 
-
-
 // move(user1, 2, 2)
 
 
+    }
+
+    public static void main(String[] args){
+        
     }
 
 }
