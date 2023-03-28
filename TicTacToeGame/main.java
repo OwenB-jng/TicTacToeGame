@@ -15,7 +15,16 @@ public class main {
 
         System.out.println("Please choose " + player1Name + "'s symbol either 'X' or 'O'");
         char player1Symbol = scanner.next().toUpperCase().charAt(0);
-        char player2Symbol = (player1Symbol == 'X')? 'O' : 'X'; //if p1 symbol x, assign o to p2 else assign x to p2.
+        char player2Symbol;
+
+        //if p1 symbol x, assign o to p2 else assign x to p2.
+        if(player1Symbol == 'X'){
+            player2Symbol = 'O';
+        }
+        else{
+            player2Symbol = 'X';
+        }
+
 
         int difficulty = 0;
 
@@ -42,7 +51,13 @@ public class main {
                 System.out.println("Enter row and column (1-3) separated by space: ");
                 int row = scanner.nextInt() - 1;
                 int col = scanner.nextInt() - 1;
-                char currentPlayerSymbol = player1Turn ? player1Symbol : player2Symbol;
+                char currentPlayerSymbol;
+                if(player1Turn){
+                    currentPlayerSymbol = player1Symbol;
+                }
+                else{
+                    currentPlayerSymbol = player2Symbol;
+                }
 
                 while (!game.play(currentPlayerSymbol, row, col)) {
                     System.out.println("Invalid move. Try again.");
@@ -52,7 +67,12 @@ public class main {
 
                 if (game.checkWin(currentPlayerSymbol)) {
                     game.printBoard();
-                    System.out.println((player1Turn ? player1Name : player2Name) + " wins!");
+                    if(player1Turn){
+                        System.out.println(player1Name + " wins!");
+                    }
+                    else{
+                        System.out.println(player2Name + " wins!");
+                    }
                     isGameOver = true;
                 } else if (game.checkDraw()) {
                     game.printBoard();

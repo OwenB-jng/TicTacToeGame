@@ -77,7 +77,14 @@ public class TicTacToe {
     }
 
     private int minimax(boolean maximizing, char symbol) {
-        char player2Symbol = (symbol == 'X') ? 'O' : 'X'; //if p1 symbol x, assign o to p2 else assign x to p2.
+        char player2Symbol;
+        //if p1 symbol x, assign o to p2 else assign x to p2.
+        if(symbol == 'X'){
+            player2Symbol = 'O';
+        }
+        else{
+            player2Symbol = 'X';
+        }
 
         if (checkWin(symbol)) {
             return 1;
@@ -87,16 +94,31 @@ public class TicTacToe {
             return 0;
         }
 
-        int bestScore = maximizing ? Integer.MIN_VALUE : Integer.MAX_VALUE; //
+        int bestScore;
+        if(maximizing){
+            bestScore = Integer.MIN_VALUE;
+        }
+        else{
+            bestScore = Integer.MAX_VALUE;
+        }
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 if (board[row][col] == EMPTY) {
-                    board[row][col] = maximizing ? symbol : player2Symbol;
+                    if(maximizing){
+                        board[row][col] = symbol;
+                    }
+                    else{
+                        board[row][col] = player2Symbol;
+                    }
                     int score = minimax(!maximizing, symbol);
                     board[row][col] = EMPTY;
-
-                    bestScore = maximizing ? Math.max(score, bestScore) : Math.min(score, bestScore);
+                    if (maximizing) {
+                        bestScore = Math.max(score, bestScore);
+                    }
+                    else{
+                        bestScore = Math.min(score, bestScore);
+                    }
                 }
             }
         }
