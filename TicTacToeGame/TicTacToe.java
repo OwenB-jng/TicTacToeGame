@@ -1,5 +1,5 @@
 public class TicTacToe {
-    private char[][] board;
+    private final char[][] board;
     private static final char EMPTY = '-'; //final allows for EMPTY to be constant. use to fill board at beginning
 
     public TicTacToe(){
@@ -36,11 +36,7 @@ public class TicTacToe {
         }
     
         // Check the top right to bottom left diagonal
-        if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol) {
-            return true;
-        }
-    
-        return false;
+        return board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol;
     }
 
     public boolean checkDraw() {
