@@ -51,13 +51,16 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
 
+        if (!(button.getText() == "")){
+            return;
+        }
+
         while (!gameBoard.checkWin('X') && !gameBoard.checkWin('O')){
-            buttonFound = false;
             if (player1Turn){
                 button.setText(String.valueOf(player1Symbol));
                 while (!buttonFound){
                     if (button == buttons[buttonX][buttonY]){
-                        System.out.println("hi"); //debug purpose.
+                        gameBoard.play(player2Symbol,buttonX,buttonY);
                         buttonFound = true;
                     }
                     else{
@@ -68,12 +71,32 @@ public class GUI extends JFrame implements ActionListener {
                         }
                     }
                 }
-
+                buttonY = 0;
+                buttonX = 0;
+                buttonFound = false;
                 player1Turn = false;
+                return;
             }
             else{
                 button.setText(String.valueOf(player2Symbol));
+                while (!buttonFound){
+                    if (button == buttons[buttonX][buttonY]){
+                        gameBoard.play(player2Symbol,buttonX,buttonY);
+                        buttonFound = true;
+                    }
+                    else{
+                        buttonY++;
+                        if (buttonY == 3){
+                            buttonX++;
+                            buttonY = 0;
+                        }
+                    }
+                }
+                buttonY = 0;
+                buttonX = 0;
+                buttonFound = false;
                 player1Turn = true;
+                return;
             }
         }
     }
