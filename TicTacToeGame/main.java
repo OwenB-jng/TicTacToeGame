@@ -33,10 +33,15 @@ public class main {
             difficulty = scanner.nextInt();
         }
 
-        //end of user input setups
-
         boolean isGameOver = false;
         boolean player1Turn = true;
+
+        System.out.println("Would " + player1Name + " like to move first? Enter 1 to go first, or 2 to go second.");
+        int p1First = scanner.nextInt();
+        if (p1First == 2){
+            player1Turn = false;
+        }
+        //end of user input setups
 
         while(!isGameOver){
             game.printBoard();
