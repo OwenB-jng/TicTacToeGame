@@ -13,6 +13,12 @@ public class GUI extends JFrame implements ActionListener {
     private boolean player1Turn;
 
     public GUI(TicTacToe gameBoard, String player1Name, String player2Name, char player1Symbol, char player2Symbol, boolean player1Turn){
+        this.gameBoard = gameBoard;
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
+        this.player1Symbol = player1Symbol;
+        this.player2Symbol = player2Symbol;
+        this.player1Turn = player1Turn;
         Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         int xMid = (screenDimension.width - 500) / 2;
         int yMid = (screenDimension.height - 500) / 2;
@@ -42,14 +48,14 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
 
-
-        if (player1Turn){
-            button.setText(String.valueOf(player1Symbol));
-            player1Turn = false;
-        }
-        else{
-            button.setText(String.valueOf(player2Symbol));
-            player1Turn = true;
-        }
+        while (!gameBoard.checkWin('X') && !gameBoard.checkWin('O'))
+            if (player1Turn){
+                button.setText(String.valueOf(player1Symbol));
+                player1Turn = false;
+            }
+            else{
+                button.setText(String.valueOf(player2Symbol));
+                player1Turn = true;
+            }
     }
 }
