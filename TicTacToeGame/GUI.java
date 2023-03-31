@@ -11,6 +11,9 @@ public class GUI extends JFrame implements ActionListener {
     private char player1Symbol;
     private char player2Symbol;
     private boolean player1Turn;
+    public boolean buttonFound = false;
+    public int buttonX = 0;
+    public int buttonY = 0;
 
     public GUI(TicTacToe gameBoard, String player1Name, String player2Name, char player1Symbol, char player2Symbol, boolean player1Turn){
         this.gameBoard = gameBoard;
@@ -48,14 +51,30 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton button = (JButton) e.getSource();
 
-        while (!gameBoard.checkWin('X') && !gameBoard.checkWin('O'))
+        while (!gameBoard.checkWin('X') && !gameBoard.checkWin('O')){
+            buttonFound = false;
             if (player1Turn){
                 button.setText(String.valueOf(player1Symbol));
+                while (!buttonFound){
+                    if (button == buttons[buttonX][buttonY]){
+                        System.out.println("hi"); //debug purpose.
+                        buttonFound = true;
+                    }
+                    else{
+                        buttonY++;
+                        if (buttonY == 3){
+                            buttonX++;
+                            buttonY = 0;
+                        }
+                    }
+                }
+
                 player1Turn = false;
             }
             else{
                 button.setText(String.valueOf(player2Symbol));
                 player1Turn = true;
             }
+        }
     }
 }
