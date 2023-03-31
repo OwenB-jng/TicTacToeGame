@@ -4,6 +4,7 @@ import java.util.Random;
 public class main {
     public static void main(String[] args){
         TicTacToe game = new TicTacToe();
+        GUI goo = new GUI(game, "owen","ai", 'X','O', true);
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 

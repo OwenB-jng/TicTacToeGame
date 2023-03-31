@@ -5,7 +5,14 @@ import java.awt.event.ActionListener;
 
 public class GUI extends JFrame implements ActionListener {
     public TicTacToe gameBoard;
-    public GUI(TicTacToe gameBoard){
+    private JButton[][] buttons;
+    private String player1Name;
+    private String player2Name;
+    private char player1Symbol;
+    private char player2Symbol;
+    private boolean player1Turn;
+
+    public GUI(TicTacToe gameBoard, String player1Name, String player2Name, char player1Symbol, char player2Symbol, boolean player1Turn){
         Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
         int xMid = (screenDimension.width - 500) / 2;
         int yMid = (screenDimension.height - 500) / 2;
@@ -16,17 +23,16 @@ public class GUI extends JFrame implements ActionListener {
         frame.setSize(500,500);
         frame.setLocation(xMid, yMid);
 
-        JButton button11 = new JButton(""); buttonPanel.add(button11);
-        JButton button12 = new JButton(""); buttonPanel.add(button12);
-        JButton button13 = new JButton(""); buttonPanel.add(button13);
-        JButton button21 = new JButton(""); buttonPanel.add(button21);
-        JButton button22 = new JButton(""); buttonPanel.add(button22);
-        JButton button23 = new JButton(""); buttonPanel.add(button23);
-        JButton button31 = new JButton(""); buttonPanel.add(button31);
-        JButton button32 = new JButton(""); buttonPanel.add(button32);
-        JButton button33 = new JButton(""); buttonPanel.add(button33);
-        Label whichTurn = new Label("Player 1 turn"); buttonPanel.add(whichTurn);
+        buttons = new JButton[3][3];
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                buttons[i][j] = new JButton("");
+                buttons[i][j].addActionListener(this);
+                buttonPanel.add(buttons[i][j]);
+            }
+        }
 
+        Label whichTurn = new Label(String.valueOf(player1Symbol)); buttonPanel.add(whichTurn);
 
         frame.add(buttonPanel);
         frame.setVisible(true);
@@ -34,6 +40,16 @@ public class GUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
 
+
+        if (player1Turn){
+            button.setText(String.valueOf(player1Symbol));
+            player1Turn = false;
+        }
+        else{
+            button.setText(String.valueOf(player2Symbol));
+            player1Turn = true;
+        }
     }
 }
