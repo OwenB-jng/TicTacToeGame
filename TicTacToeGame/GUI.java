@@ -12,6 +12,7 @@ public class GUI extends JFrame implements ActionListener {
     private char player2Symbol;
     private boolean player1Turn;
     public boolean buttonFound = false;
+    public boolean gameDone = false;
     public int buttonX = 0;
     public int buttonY = 0;
 
@@ -55,12 +56,12 @@ public class GUI extends JFrame implements ActionListener {
             return;
         }
 
-        while (!gameBoard.checkWin('X') && !gameBoard.checkWin('O')){
+        while (!gameDone){
             if (player1Turn){
                 button.setText(String.valueOf(player1Symbol));
                 while (!buttonFound){
                     if (button == buttons[buttonX][buttonY]){
-                        gameBoard.play(player2Symbol,buttonX,buttonY);
+                        gameBoard.play(player1Symbol, buttonX, buttonY);
                         buttonFound = true;
                     }
                     else{
@@ -75,13 +76,14 @@ public class GUI extends JFrame implements ActionListener {
                 buttonX = 0;
                 buttonFound = false;
                 player1Turn = false;
+                if (gameBoard.checkWin(player1Symbol)) gameDone = true;
                 return;
             }
             else{
                 button.setText(String.valueOf(player2Symbol));
                 while (!buttonFound){
                     if (button == buttons[buttonX][buttonY]){
-                        gameBoard.play(player2Symbol,buttonX,buttonY);
+                        gameBoard.play(player2Symbol, buttonX, buttonY);
                         buttonFound = true;
                     }
                     else{
@@ -96,6 +98,7 @@ public class GUI extends JFrame implements ActionListener {
                 buttonX = 0;
                 buttonFound = false;
                 player1Turn = true;
+                if (gameBoard.checkWin(player2Symbol)) gameDone = true;
                 return;
             }
         }
