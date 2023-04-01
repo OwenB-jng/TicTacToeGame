@@ -3,8 +3,12 @@ import java.util.Random;
 
 public class main {
     public static void main(String[] args){
+        Random rand = new Random();
+        int aiX = rand.nextInt(0,3);
+        int aiY = rand.nextInt(0,3);
+        System.out.println(aiX);
+        System.out.println(aiY);
         TicTacToe game = new TicTacToe();
-        GUI goo = new GUI(game, "owen","ai", 'X','O', false);
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
@@ -43,6 +47,8 @@ public class main {
             player1Turn = false;
         }
         //end of user input setups
+
+        GUI goo = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
 
         while(!isGameOver){
             game.printBoard();
