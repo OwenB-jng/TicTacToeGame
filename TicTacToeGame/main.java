@@ -1,3 +1,6 @@
+// Raleigh Desmond 101374701
+// Harlan Ferguson 101133838
+// Owen Beattie 101379668
 import java.util.Scanner;
 import java.util.Random;
 
