@@ -7,10 +7,8 @@ import java.util.Random;
 public class main {
     public static void main(String[] args){
         Random rand = new Random();
-        int aiX = rand.nextInt(0,3);
-        int aiY = rand.nextInt(0,3);
-        System.out.println(aiX);
-        System.out.println(aiY);
+        int aiX = rand.nextInt(3);
+        int aiY = rand.nextInt(3);
         TicTacToe game = new TicTacToe();
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
@@ -52,75 +50,6 @@ public class main {
         //end of user input setups
 
         GUI goo = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
-
-        while(!isGameOver){
-            game.printBoard();
-
-            if (player1Turn) {
-                System.out.println(player1Name + "'s turn.");
-            } else {
-                System.out.println(player2Name + "'s turn.");
-            }
-
-            if (!player2Name.equalsIgnoreCase("AI") || player1Turn) {
-                System.out.println("Enter row and column (1-3) separated by space: ");
-                int row = scanner.nextInt() - 1;
-                int col = scanner.nextInt() - 1;
-                char currentPlayerSymbol;
-                if(player1Turn){
-                    currentPlayerSymbol = player1Symbol;
-                }
-                else{
-                    currentPlayerSymbol = player2Symbol;
-                }
-
-                while (!game.play(currentPlayerSymbol, row, col)) {
-                    System.out.println("Invalid move. Try again.");
-                    row = scanner.nextInt() - 1;
-                    col = scanner.nextInt() - 1;
-                }
-
-                if (game.checkWin(currentPlayerSymbol)) {
-                    game.printBoard();
-                    if(player1Turn){
-                        System.out.println(player1Name + " wins!");
-                    }
-                    else{
-                        System.out.println(player2Name + " wins!");
-                    }
-                    isGameOver = true;
-                } else if (game.checkDraw()) {
-                    game.printBoard();
-                    System.out.println("It's a draw!");
-                    isGameOver = true;
-                } else {
-                    player1Turn = !player1Turn;
-                }
-            } else {
-                if (difficulty == 1) {
-                    int row, col;
-                    do {
-                        row = random.nextInt(3);
-                        col = random.nextInt(3);
-                    } while (!game.play(player2Symbol, row, col));
-                } else { //implement minimax
-                    int[] move = game.findBestMove(player2Symbol);
-                    game.play(player2Symbol, move[0], move[1]);
-                }
-
-                if (game.checkWin(player2Symbol)) {
-                    game.printBoard();
-                    System.out.println("Computer wins!");
-                    isGameOver = true;
-                } else if (game.checkDraw()) {
-                    game.printBoard();
-                    System.out.println("It's a draw!");
-                    isGameOver = true;
-                } else {
-                    player1Turn = !player1Turn;
-                }
-            }          
-        }
         scanner.close();     
     }
 }

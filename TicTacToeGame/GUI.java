@@ -100,7 +100,7 @@ public class GUI extends JFrame implements ActionListener {
                             buttons[row][col].setText(String.valueOf(player2Symbol));
                             gameBoard.play(player2Symbol, row, col);
                             placed = true;
-                            System.out.println("O placed in " + row + col);
+                            //System.out.println("O placed in " + row + col);
                             break;
                         }
                     }
