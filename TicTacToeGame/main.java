@@ -15,7 +15,7 @@ public class main {
 
         System.out.println("Please enter player 1's name: ");
         String player1Name = scanner.nextLine();
-        
+
         System.out.println("Please enter player 2's name. Please type: AI if you want to play against the AI: ");
         String player2Name = scanner.nextLine();
 
@@ -49,7 +49,7 @@ public class main {
         }
         //end of user input setups
 
-        GUI goo = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
-        scanner.close();     
+        //GUI goo = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
+        scanner.close();
     }
 }
