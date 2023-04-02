@@ -19,7 +19,7 @@ public class main {
         System.out.println("Please enter player 2's name. Please type: AI if you want to play against the AI: ");
         String player2Name = scanner.nextLine();
 
-        System.out.println("Please choose " + player1Name + "'s symbol either 'X' or 'O'");
+        System.out.println("Please choose " + player1Name + "'s symbol, either 'X' or 'O'");
         char player1Symbol = scanner.next().toUpperCase().charAt(0);
         char player2Symbol;
 
@@ -48,8 +48,9 @@ public class main {
             player1Turn = false;
         }
         //end of user input setups
+        System.out.println("Opening the GUI!");
 
-        //GUI goo = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
+        GUI GUI = new GUI(game, player1Name,player2Name, player1Symbol,player2Symbol, difficulty, player1Turn, aiX, aiY);
         scanner.close();
     }
 }

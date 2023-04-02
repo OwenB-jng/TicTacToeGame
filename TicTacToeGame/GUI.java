@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener {
     public Label victor = new Label("");
     public String[] colours = new String[]{"yellow", "red", "pink", "orange", "blue", "cyan", "magenta", "green"};
 
-    public GUI(TicTacToe gameBoard, String player1Name, String player2Name, char player1Symbol, char player2Symbol, int difficulty, boolean player1Turn, int aiX, int aiY){
+    public GUI(TicTacToe gameBoard, String player1Name, String player2Name, char player1Symbol, char player2Symbol, int difficulty, boolean player1Turn, int aiX, int aiY) {
         this.gameBoard = gameBoard;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
@@ -38,27 +38,29 @@ public class GUI extends JFrame implements ActionListener {
 
         JFrame frame = new JFrame();
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3,3));
+        buttonPanel.setLayout(new GridLayout(3, 3));
 
-        frame.setSize(500,500);
+        frame.setSize(500, 500);
         frame.setLocation(xMid, yMid);
 
         buttons = new JButton[3][3];
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 buttons[i][j] = new JButton("");
-                buttons[i][j].setFont(new Font(Font.SANS_SERIF, Font.BOLD,50));
+                buttons[i][j].setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
                 buttons[i][j].addActionListener(this);
                 buttonPanel.add(buttons[i][j]);
             }
         }
-        if (player2Name.equalsIgnoreCase("ai") && !player1Turn){
+        if (player2Name.equalsIgnoreCase("ai") && !player1Turn) {
             buttons[aiX][aiY].setText(String.valueOf(player2Symbol));
             gameBoard.play(player2Symbol, aiX, aiY);
         }
 
         frame.add(buttonPanel);
         frame.setVisible(true);
+        frame.toFront();
+        frame.setAlwaysOnTop(true);
     }
 
     @Override
@@ -67,22 +69,21 @@ public class GUI extends JFrame implements ActionListener {
         Random rand = new Random();
 
 
-        if (!(button.getText() == "")){
+        if (!(button.getText() == "")) {
             return;
         }
         // PVE
-        if (player2Name.equalsIgnoreCase("ai")){
-            if (difficulty == 1){
-                while (!gameDone){
+        if (player2Name.equalsIgnoreCase("ai")) {
+            if (difficulty == 1) {
+                while (!gameDone) {
                     button.setText(String.valueOf(player1Symbol));
-                    while (!buttonFound){
-                        if (button == buttons[buttonX][buttonY]){
+                    while (!buttonFound) {
+                        if (button == buttons[buttonX][buttonY]) {
                             gameBoard.play(player1Symbol, buttonX, buttonY);
                             buttonFound = true;
-                        }
-                        else{
+                        } else {
                             buttonY++;
-                            if (buttonY == 3){
+                            if (buttonY == 3) {
                                 buttonX++;
                                 buttonY = 0;
                             }
@@ -92,35 +93,35 @@ public class GUI extends JFrame implements ActionListener {
                     buttonX = 0;
                     buttonFound = false;
                     player1Turn = false;
-                    if (gameBoard.checkWin(player1Symbol)){
+                    if (gameBoard.checkWin(player1Symbol)) {
                         gameDone = true;
                         victor.setText("The winner is " + player1Name + "!");
                         break;
                     }
                     int row, col;
                     boolean placed = false;
-                    while (!placed){
+                    while (!placed) {
                         row = rand.nextInt(3);
                         col = rand.nextInt(3);
-                        if (buttons[row][col].getText().equals("")){
+                        if (buttons[row][col].getText().equals("")) {
                             buttons[row][col].setText(String.valueOf(player2Symbol));
                             gameBoard.play(player2Symbol, row, col);
                             placed = true;
                             break;
                         }
                     }
-                    if (gameBoard.checkWin(player2Symbol)){
+                    if (gameBoard.checkWin(player2Symbol)) {
                         gameDone = true;
                         victor.setText("The winner is " + player2Name + "!");
                         player1Victory = false;
                         break;
                     }
-                    for (int x = 0; x < 3; x++){
-                        for (int y = 0; y < 3; y++){
-                            if (buttons[x][y].getText().equals("")){
+                    for (int x = 0; x < 3; x++) {
+                        for (int y = 0; y < 3; y++) {
+                            if (buttons[x][y].getText().equals("")) {
                                 return;
                             }
-                            if (x == 2 && y == 2){
+                            if (x == 2 && y == 2) {
                                 gameDone = true;
                                 victor.setText("Draw!");
                                 gameDraw = true;
@@ -129,49 +130,58 @@ public class GUI extends JFrame implements ActionListener {
                     }
                 }
 
-                if (gameDone){
+                if (gameDone) {
                     JFrame winnerFrame = new JFrame();
-                    if (player1Victory){
+                    if (player1Victory) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
+                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
                                     buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
                                     buttons[x][y].setBackground(Color.RED);
+                                } else {
+                                    buttons[x][y].setBackground(Color.BLACK);
                                 }
-                                else{
+                            }
+                        }
+                    } else {
+                        for (int x = 0; x < 3; x++) {
+                            for (int y = 0; y < 3; y++) {
+                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
+                                    buttons[x][y].setBackground(Color.GREEN);
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
+                                    buttons[x][y].setBackground(Color.RED);
+                                } else {
                                     buttons[x][y].setBackground(Color.BLACK);
                                 }
                             }
                         }
                     }
-                    else{
-                        for (int x = 0; x < 3; x++) {
-                            for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
-                                    buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
-                                    buttons[x][y].setBackground(Color.RED);
-                                }
-                                else{
-                                    buttons[x][y].setBackground(Color.BLACK);
-                                }
-                            }
-                        }
-                    }
-                    if (gameDraw){
+                    if (gameDraw) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
                                 int randomColour = rand.nextInt(7);
-                                if (randomColour == 0){buttons[x][y].setBackground(Color.orange);}
-                                if (randomColour == 1){buttons[x][y].setBackground(Color.red);}
-                                if (randomColour == 2){buttons[x][y].setBackground(Color.yellow);}
-                                if (randomColour == 3){buttons[x][y].setBackground(Color.green);}
-                                if (randomColour == 4){buttons[x][y].setBackground(Color.blue);}
-                                if (randomColour == 5){buttons[x][y].setBackground(Color.cyan);}
-                                if (randomColour == 6){buttons[x][y].setBackground(Color.magenta);}
+                                if (randomColour == 0) {
+                                    buttons[x][y].setBackground(Color.orange);
+                                }
+                                if (randomColour == 1) {
+                                    buttons[x][y].setBackground(Color.red);
+                                }
+                                if (randomColour == 2) {
+                                    buttons[x][y].setBackground(Color.yellow);
+                                }
+                                if (randomColour == 3) {
+                                    buttons[x][y].setBackground(Color.green);
+                                }
+                                if (randomColour == 4) {
+                                    buttons[x][y].setBackground(Color.blue);
+                                }
+                                if (randomColour == 5) {
+                                    buttons[x][y].setBackground(Color.cyan);
+                                }
+                                if (randomColour == 6) {
+                                    buttons[x][y].setBackground(Color.magenta);
+                                }
                             }
                         }
                     }
@@ -181,26 +191,26 @@ public class GUI extends JFrame implements ActionListener {
                     Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
                     int xMid = (screenDimension.width - 300) / 2;
                     int yMid = (screenDimension.height - 200) / 2;
-                    winnerFrame.setSize(300,100);
+                    winnerFrame.setSize(300, 100);
                     winnerFrame.setLocation(xMid, yMid);
                     winnerFrame.setVisible(true);
+                    winnerFrame.setAlwaysOnTop(true);
                 }
                 return;
             }
 
             // ^ Random / MinMax v
 
-            else{
-                while (!gameDone){
+            else {
+                while (!gameDone) {
                     button.setText(String.valueOf(player1Symbol));
-                    while (!buttonFound){
-                        if (button == buttons[buttonX][buttonY]){
+                    while (!buttonFound) {
+                        if (button == buttons[buttonX][buttonY]) {
                             gameBoard.play(player1Symbol, buttonX, buttonY);
                             buttonFound = true;
-                        }
-                        else{
+                        } else {
                             buttonY++;
-                            if (buttonY == 3){
+                            if (buttonY == 3) {
                                 buttonX++;
                                 buttonY = 0;
                             }
@@ -210,13 +220,13 @@ public class GUI extends JFrame implements ActionListener {
                     buttonX = 0;
                     buttonFound = false;
                     player1Turn = false;
-                    if(!buttons[0][0].getText().equals("")){
-                        for (int x = 0; x < 3; x++){
-                            for (int y = 0; y < 3; y++){
-                                if (buttons[x][y].getText().equals("")){
+                    if (!buttons[0][0].getText().equals("")) {
+                        for (int x = 0; x < 3; x++) {
+                            for (int y = 0; y < 3; y++) {
+                                if (buttons[x][y].getText().equals("")) {
                                     break;
                                 }
-                                if (x == 2 && y == 2){
+                                if (x == 2 && y == 2) {
                                     gameDone = true;
                                     victor.setText("Draw!");
                                     gameDraw = true;
@@ -226,14 +236,14 @@ public class GUI extends JFrame implements ActionListener {
                         }
                     }
 
-                    if (gameBoard.checkWin(player1Symbol)){
+                    if (gameBoard.checkWin(player1Symbol)) {
                         gameDone = true;
                         victor.setText("The winner is " + player1Name + "!");
                         break;
                     }
-                    if (!gameDraw){
+                    if (!gameDraw) {
                         boolean placed = false;
-                        while (!placed){
+                        while (!placed) {
                             int[] move = gameBoard.findBestMove(player2Symbol);
                             if (buttons[move[0]][move[1]].getText().equals("")) {
                                 buttons[move[0]][move[1]].setText(String.valueOf(player2Symbol));
@@ -241,7 +251,7 @@ public class GUI extends JFrame implements ActionListener {
                                 placed = true;
                             }
                         }
-                        if (gameBoard.checkWin(player2Symbol)){
+                        if (gameBoard.checkWin(player2Symbol)) {
                             gameDone = true;
                             victor.setText("The winner is " + player2Name + "!");
                             player1Victory = false;
@@ -265,48 +275,57 @@ public class GUI extends JFrame implements ActionListener {
                         break;
                     }
                 }
-                if (gameDone){
-                    if (player1Victory){
+                if (gameDone) {
+                    if (player1Victory) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
+                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
                                     buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
                                     buttons[x][y].setBackground(Color.RED);
+                                } else {
+                                    buttons[x][y].setBackground(Color.BLACK);
                                 }
-                                else{
+                            }
+                        }
+                    } else {
+                        for (int x = 0; x < 3; x++) {
+                            for (int y = 0; y < 3; y++) {
+                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
+                                    buttons[x][y].setBackground(Color.GREEN);
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
+                                    buttons[x][y].setBackground(Color.RED);
+                                } else {
                                     buttons[x][y].setBackground(Color.BLACK);
                                 }
                             }
                         }
                     }
-                    else{
-                        for (int x = 0; x < 3; x++) {
-                            for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
-                                    buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
-                                    buttons[x][y].setBackground(Color.RED);
-                                }
-                                else{
-                                    buttons[x][y].setBackground(Color.BLACK);
-                                }
-                            }
-                        }
-                    }
-                    if (gameDraw){
+                    if (gameDraw) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
                                 int randomColour = rand.nextInt(7);
-                                if (randomColour == 0){buttons[x][y].setBackground(Color.orange);}
-                                if (randomColour == 1){buttons[x][y].setBackground(Color.red);}
-                                if (randomColour == 2){buttons[x][y].setBackground(Color.yellow);}
-                                if (randomColour == 3){buttons[x][y].setBackground(Color.green);}
-                                if (randomColour == 4){buttons[x][y].setBackground(Color.blue);}
-                                if (randomColour == 5){buttons[x][y].setBackground(Color.cyan);}
-                                if (randomColour == 6){buttons[x][y].setBackground(Color.magenta);}
+                                if (randomColour == 0) {
+                                    buttons[x][y].setBackground(Color.orange);
+                                }
+                                if (randomColour == 1) {
+                                    buttons[x][y].setBackground(Color.red);
+                                }
+                                if (randomColour == 2) {
+                                    buttons[x][y].setBackground(Color.yellow);
+                                }
+                                if (randomColour == 3) {
+                                    buttons[x][y].setBackground(Color.green);
+                                }
+                                if (randomColour == 4) {
+                                    buttons[x][y].setBackground(Color.blue);
+                                }
+                                if (randomColour == 5) {
+                                    buttons[x][y].setBackground(Color.cyan);
+                                }
+                                if (randomColour == 6) {
+                                    buttons[x][y].setBackground(Color.magenta);
+                                }
                             }
                         }
                     }
@@ -317,16 +336,17 @@ public class GUI extends JFrame implements ActionListener {
                     Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
                     int xMid = (screenDimension.width - 300) / 2;
                     int yMid = (screenDimension.height - 200) / 2;
-                    winnerFrame.setSize(300,100);
+                    winnerFrame.setSize(300, 100);
                     winnerFrame.setLocation(xMid, yMid);
                     winnerFrame.setVisible(true);
+                    winnerFrame.setAlwaysOnTop(true);
                 }
                 return;
             }
         }
 
         // PVP
-        else{
+        else {
             while (!gameDone) {
                 if (player1Turn) {
                     button.setText(String.valueOf(player1Symbol));
@@ -349,7 +369,6 @@ public class GUI extends JFrame implements ActionListener {
                     if (gameBoard.checkWin(player1Symbol)) {
                         gameDone = true;
                         victor.setText("The winner is " + player1Name + "!");
-                        System.out.println("hi");
                     }
                 } else {
                     button.setText(String.valueOf(player2Symbol));
@@ -378,7 +397,7 @@ public class GUI extends JFrame implements ActionListener {
                 for (int x = 0; x < 3; x++) {
                     for (int y = 0; y < 3; y++) {
                         if (buttons[x][y].getText().equals("")) {
-                            return;
+                            break;
                         }
                         if (x == 2 && y == 2) {
                             gameDone = true;
@@ -387,49 +406,57 @@ public class GUI extends JFrame implements ActionListener {
                         }
                     }
                 }
-            }
-                if (gameDone){
-                    if (player1Victory){
+                if (gameDone) {
+                    if (player1Victory) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
+                                if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
                                     buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
                                     buttons[x][y].setBackground(Color.RED);
+                                } else {
+                                    buttons[x][y].setBackground(Color.BLACK);
                                 }
-                                else{
+                            }
+                        }
+                    } else {
+                        for (int x = 0; x < 3; x++) {
+                            for (int y = 0; y < 3; y++) {
+                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))) {
+                                    buttons[x][y].setBackground(Color.GREEN);
+                                } else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))) {
+                                    buttons[x][y].setBackground(Color.RED);
+                                } else {
                                     buttons[x][y].setBackground(Color.BLACK);
                                 }
                             }
                         }
                     }
-                    else{
-                        for (int x = 0; x < 3; x++) {
-                            for (int y = 0; y < 3; y++) {
-                                if (buttons[x][y].getText().equals(String.valueOf(player2Symbol))){
-                                    buttons[x][y].setBackground(Color.GREEN);
-                                }
-                                else if (buttons[x][y].getText().equals(String.valueOf(player1Symbol))){
-                                    buttons[x][y].setBackground(Color.RED);
-                                }
-                                else{
-                                    buttons[x][y].setBackground(Color.BLACK);
-                                }
-                            }
-                        }
-                    }
-                    if (gameDraw){
+                    if (gameDraw) {
                         for (int x = 0; x < 3; x++) {
                             for (int y = 0; y < 3; y++) {
                                 int randomColour = rand.nextInt(7);
-                                if (randomColour == 0){buttons[x][y].setBackground(Color.orange);}
-                                if (randomColour == 1){buttons[x][y].setBackground(Color.red);}
-                                if (randomColour == 2){buttons[x][y].setBackground(Color.yellow);}
-                                if (randomColour == 3){buttons[x][y].setBackground(Color.green);}
-                                if (randomColour == 4){buttons[x][y].setBackground(Color.blue);}
-                                if (randomColour == 5){buttons[x][y].setBackground(Color.cyan);}
-                                if (randomColour == 6){buttons[x][y].setBackground(Color.magenta);}
+                                if (randomColour == 0) {
+                                    buttons[x][y].setBackground(Color.orange);
+                                }
+                                if (randomColour == 1) {
+                                    buttons[x][y].setBackground(Color.red);
+                                }
+                                if (randomColour == 2) {
+                                    buttons[x][y].setBackground(Color.yellow);
+                                }
+                                if (randomColour == 3) {
+                                    buttons[x][y].setBackground(Color.green);
+                                }
+                                if (randomColour == 4) {
+                                    buttons[x][y].setBackground(Color.blue);
+                                }
+                                if (randomColour == 5) {
+                                    buttons[x][y].setBackground(Color.cyan);
+                                }
+                                if (randomColour == 6) {
+                                    buttons[x][y].setBackground(Color.magenta);
+                                }
                             }
                         }
                     }
@@ -440,11 +467,13 @@ public class GUI extends JFrame implements ActionListener {
                     Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
                     int xMid = (screenDimension.width - 300) / 2;
                     int yMid = (screenDimension.height - 200) / 2;
-                    winnerFrame.setSize(300,100);
+                    winnerFrame.setSize(300, 100);
                     winnerFrame.setLocation(xMid, yMid);
                     winnerFrame.setVisible(true);
+                    winnerFrame.setAlwaysOnTop(true);
                 }
                 return;
+            }
         }
     }
 }
